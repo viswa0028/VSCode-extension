@@ -1,7 +1,7 @@
 const vscode = require('vscode');
 const axios = require('axios');
 
-const API_KEY = 'AIzaSyB3MDyxXQCFkvmF74RGbq5zmp2joCH-q6I';
+const API_KEY = 'Your API key';
 const API_URL = "https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=" + API_KEY;
 
 async function analyzeCode() {  
