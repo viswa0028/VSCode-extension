@@ -1,9 +1,9 @@
 const vscode = require('vscode');
 const axios = require('axios');
 
-const API_KEY = 'AIzaSyB3MDyxXQCFkvmF74RGbq5zmp2joCH-q6I';
+const API_KEY = 'YOUR API KEY';
 const API_URL = "https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=" + API_KEY;
-
+const Prompt = "GIVE YOUR PROMPT";
 async function analyzeCode() {  
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
@@ -13,7 +13,7 @@ async function analyzeCode() {
     }
 
     const code = editor.document.getText();
-    const prompt = `Analyse the code and tell me all the errors in it the code is:\n\n${code} and also give a seperate heading suggestions for better output of the code`;
+    const prompt = Prompt + `\n\n${code} `;
 
     try {
         const response = await axios.post(API_URL, {
