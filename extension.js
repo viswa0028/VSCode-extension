@@ -1,7 +1,7 @@
 const vscode = require('vscode');
 const axios = require('axios');
 
-const API_KEY = 'Your API key';
+const API_KEY = 'AIzaSyB3MDyxXQCFkvmF74RGbq5zmp2joCH-q6I';
 const API_URL = "https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=" + API_KEY;
 
 async function analyzeCode() {  
@@ -19,8 +19,6 @@ async function analyzeCode() {
         const response = await axios.post(API_URL, {
             contents: [{ role: "user", parts: [{ text: prompt }] }]  
         });
-        
-        // console.log("Full API Response:", JSON.stringify(response.data, null, 2));
 
         const analysisText = response.data?.candidates?.[0]?.content?.parts?.[0]?.text;
         
@@ -30,10 +28,21 @@ async function analyzeCode() {
 
         vscode.window.showInformationMessage("Analysis of the code complete.");
 
-        const outputChannel = vscode.window.createOutputChannel("Gemini Code Analysis");
-        outputChannel.clear();
-        outputChannel.appendLine(analysisText);
-        outputChannel.show();
+        // Create and show markdown content
+        const markdownContent = new vscode.MarkdownString(analysisText);
+        const doc = await vscode.workspace.openTextDocument({
+            content: analysisText,
+            language: 'markdown'
+        });
+        
+        // Show the document in a new editor
+        await vscode.window.showTextDocument(doc, {
+            viewColumn: vscode.ViewColumn.Beside,
+            preview: true
+        });
+        
+        // Open the markdown preview
+        await vscode.commands.executeCommand('markdown.showPreview', doc.uri);
 
     } catch (error) {
         console.error("Error details:", error);
